@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Rails Debug",
+      "type": "rdbg",
+      "request": "launch",
+      "script": "bin/rails",
+      "args": ["server"],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

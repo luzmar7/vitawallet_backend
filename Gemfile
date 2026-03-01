@@ -38,6 +38,8 @@ gem 'bcrypt'
 gem 'jwt'
 gem 'rspec-rails', group: [:development, :test]
 gem 'rack-cors'
+gem 'httparty'
+gem "kaminari"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
