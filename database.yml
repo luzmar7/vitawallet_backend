@@ -1,0 +1,3 @@
+host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
+username: <%= ENV.fetch("DATABASE_USER", "postgres") %>
+password: <%= ENV.fetch("DATABASE_PASSWORD", "") %>

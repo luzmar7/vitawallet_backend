@@ -1,108 +1,164 @@
-# VitaWallet API (Backend)
+# 📘 VitaWallet API – Backend
+
+Backend desarrollado como parte de la prueba técnica Fullstack VitaWallet.
+
+---
 
 ## 🚀 Stack
 
 - Ruby on Rails
 - PostgreSQL
+- JWT Authentication
 - RSpec
 - HTTParty
+- Docker
 
-## 📦 Setup
+---
 
-### 1️⃣ Clone repository
+## 🐳 Quick Start (Recomendado – Docker)
 
-git clone https://github.com/TU_USUARIO/vitawallet_backend.git
+Clonar repositorio:
+
+```bash
+git clone https://github.com/luzmar7/vitawallet_backend.git
 cd vitawallet_backend
+```
 
-### 2️⃣ Install Ruby
+Levantar servicios:
 
-Recommended version:
+```bash
+docker compose build
+docker compose up
+```
+
+Servidor disponible en:
+
+http://localhost:4000
+
+Ejecutar tests dentro de Docker:
+
+```bash
+docker compose run web bundle exec rspec
+```
+
+---
+
+## 💻 Setup Manual (Alternativo)
+
+### 1️⃣ Ruby
+
+Versión recomendada:
 
 3.2.2
 
-pasos:
-install rbenv:
-Paso 1: Instalar dependencias necesarias:
+### 2️⃣ Instalar dependencias
 
-sudo apt update
-sudo apt install -y git curl build-essential libssl-dev libreadline-dev zlib1g-dev \
-libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev \
-libffi-dev
-
-✅ Paso 2: Instalar rbenv correctamente (desde GitHub)
-git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-
-Agregar rbenv al PATH:
-
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(rbenv init - bash)"' >> ~/.bashrc
-source ~/.bashrc
-
-Paso 3: Instalar ruby-build (plugin para instalar versiones de Ruby)
-git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-
-Paso 4: verificar
-rbenv --version
-
-Paso 5: Ahora sí instalar Ruby 3.2.2
-
-rbenv install 3.2.2
-rbenv local 3.2.2
-ruby -v
-
-### 3️⃣ Install dependencies
-
+```bash
 bundle install
+```
 
-### 4️⃣ Setup database
+### 3️⃣ Base de datos
 
+```bash
 rails db:create
 rails db:migrate
-
-### 4️⃣ Setup SEEDS database
 rails db:seed
+```
 
+### 4️⃣ Ejecutar servidor
 
-### 5️⃣ Run server
-
+```bash
 rails server -p 4000
-o 
-rails server
+```
 
-Server runs on:
-http://localhost:4000
+---
 
-## 🔐 Authentication
+## 🔐 Autenticación
 
-JWT based authentication.
+Autenticación basada en JWT.
 
-Endpoints:
+### Endpoints
 
-POST /register  
-POST /login  
-GET /me  
+- POST /register  
+- POST /login  
+- GET /me  
+
+Los endpoints protegidos requieren:
+
+Authorization: Bearer <token>
+
+---
 
 ## 💰 Wallet
 
 GET /wallet  
 
+Devuelve balances en:
+
+- USD
+- CLP
+- BTC
+- USDC
+- USDT
+
+---
+
 ## 🔄 Exchange
 
 POST /exchange  
 
+Validaciones implementadas:
+
+- Validación de saldo suficiente
+- Manejo de precisión decimal
+- Estados de transacción:
+  - pending
+  - completed
+  - rejected
+- Uso de transacción de base de datos para mantener consistencia
+
+---
+
 ## 📊 Transactions
 
-GET /transactions  
-GET /transactions?status=completed  
+- GET /transactions  
+- GET /transactions?status=completed  
 
-## 🧠 Architecture
+Soporta filtrado por estado.
 
-- Controllers handle HTTP
-- Services contain business logic (ExchangeService, PriceService)
-- Models handle persistence
-- JWT for auth
-- External price API integration with caching
+---
+
+## 🧠 Decisiones Técnicas
+
+- Se utilizó JWT para mantener autenticación stateless.
+- Se implementaron Service Objects (ExchangeService, PriceService) para separar lógica de negocio del controlador.
+- El proceso de exchange se ejecuta dentro de una transacción de base de datos para evitar inconsistencias.
+- Se integró API externa de precios con manejo básico de errores.
+- Se agregó RSpec para pruebas de autenticación y lógica crítica.
+- Se dockerizó el proyecto para facilitar ejecución y evaluación.
+
+---
 
 ## 🧪 Testing
 
-RSpec configured for model and service tests.
+Ejecutar:
+
+```bash
+bundle exec rspec
+```
+
+Cobertura actual:
+
+- Login
+- Protección de endpoints
+- Validación de exchange
+- Validaciones de modelo
+
+---
+
+## 🔜 Mejoras Futuras
+
+- Documentación Swagger/OpenAPI
+- CI/CD con GitHub Actions
+- Cache con Redis
+- Paginación avanzada
